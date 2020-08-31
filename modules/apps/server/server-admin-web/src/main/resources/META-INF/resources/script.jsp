@@ -23,12 +23,6 @@ if (SessionMessages.contains(renderRequest, "language")) {
 	language = (String)SessionMessages.get(renderRequest, "language");
 }
 
-String output = ParamUtil.getString(renderRequest, "output", "text");
-
-if (SessionMessages.contains(renderRequest, "output")) {
-	output = (String)SessionMessages.get(renderRequest, "output");
-}
-
 String script = "// ### Groovy Sample ###\n\nnumber = com.liferay.portal.kernel.service.UserLocalServiceUtil.getUsersCount();\n\nout.println(number);";
 
 if (SessionMessages.contains(renderRequest, "script")) {
@@ -36,6 +30,12 @@ if (SessionMessages.contains(renderRequest, "script")) {
 }
 
 String scriptOutput = (String)SessionMessages.get(renderRequest, "scriptOutput");
+
+String output = ParamUtil.getString(renderRequest, "output", "text");
+
+if (SessionMessages.contains(renderRequest, "output")) {
+	output = (String)SessionMessages.get(renderRequest, "output");
+}
 %>
 
 <liferay-ui:error exception="<%= ScriptingException.class %>">
