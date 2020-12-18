@@ -76,6 +76,7 @@ import com.liferay.portal.kernel.xml.Element;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 import com.liferay.portal.kernel.xml.UnsecureSAXReaderUtil;
 import com.liferay.portal.plugin.PluginPackageUtil;
+import com.liferay.portal.security.jaas.JAASHelper;
 import com.liferay.portal.service.impl.LayoutTemplateLocalServiceImpl;
 import com.liferay.portal.servlet.EncryptedServletRequest;
 import com.liferay.portal.servlet.I18nServlet;
@@ -562,7 +563,8 @@ public class MainServlet extends HttpServlet {
 			}
 
 			userId = _loginUser(
-				httpServletRequest, httpServletResponse, userId, remoteUser);
+				httpServletRequest, httpServletResponse, companyId, userId,
+				remoteUser);
 
 			if (_log.isDebugEnabled()) {
 				_log.debug("Authenticated user id " + userId);
@@ -1005,15 +1007,27 @@ public class MainServlet extends HttpServlet {
 
 	private long _loginUser(
 			HttpServletRequest httpServletRequest,
-			HttpServletResponse httpServletResponse, long userId,
-			String remoteUser)
+			HttpServletResponse httpServletResponse, long companyId,
+			long userId, String remoteUser)
 		throws PortalException {
 
 		if ((userId > 0) || (remoteUser == null)) {
 			return userId;
 		}
 
-		userId = GetterUtil.getLong(remoteUser);
+		if (PropsValues.PORTAL_JAAS_ENABLE) {
+			try {
+				userId = JAASHelper.getJaasUserId(companyId, remoteUser);
+			}
+			catch (Exception exception) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(exception, exception);
+				}
+			}
+		}
+		else {
+			userId = GetterUtil.getLong(remoteUser);
+		}
 
 		User user = UserLocalServiceUtil.getUserById(userId);
 
