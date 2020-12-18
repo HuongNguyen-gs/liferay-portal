@@ -523,7 +523,7 @@ describe('App', function () {
 			host: 'localhost',
 			hostname: 'localhost',
 			origin: 'http://localhost',
-			pathname: '/path',
+			pathname: '/base/path',
 			search: '',
 		});
 
@@ -536,6 +536,10 @@ describe('App', function () {
 		expect(this.app.canNavigate('http://localhost/base/')).toBe(true);
 		expect(this.app.canNavigate('http://localhost/base')).toBe(true);
 		expect(this.app.canNavigate('http://localhost/base/path')).toBe(true);
+		expect(this.app.canNavigate('http://localhost/base/path#')).toBe(false);
+		expect(this.app.canNavigate('http://localhost/base/path#foo')).toBe(
+			false
+		);
 		expect(this.app.canNavigate('http://localhost/base/path1')).toBe(false);
 		expect(this.app.canNavigate('http://localhost/path')).toBe(false);
 		expect(this.app.canNavigate('http://external/path')).toBe(false);
