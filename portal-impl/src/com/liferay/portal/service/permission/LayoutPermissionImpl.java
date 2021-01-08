@@ -135,14 +135,14 @@ public class LayoutPermissionImpl
 			boolean checkViewableGroup, String actionId)
 		throws PortalException {
 
-		Map<Object, Object> permissionChecksMap =
-			permissionChecker.getPermissionChecksMap();
-
 		long layoutClassNameId = PortalUtil.getClassNameId(Layout.class);
 
 		if (layout.getClassNameId() == layoutClassNameId) {
 			layout = LayoutLocalServiceUtil.getLayout(layout.getClassPK());
 		}
+
+		Map<Object, Object> permissionChecksMap =
+			permissionChecker.getPermissionChecksMap();
 
 		CacheKey cacheKey = new CacheKey(
 			layout.getPlid(), layout.getMvccVersion(), checkViewableGroup,
