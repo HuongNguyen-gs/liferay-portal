@@ -469,13 +469,13 @@ public class LayoutStagedModelDataHandler
 		long groupId = GetterUtil.getLong(
 			referenceElement.attributeValue("group-id"));
 
-		groupId = MapUtil.getLong(groupIds, groupId);
+		long targetGroupId = MapUtil.getLong(groupIds, groupId);
 
 		boolean privateLayout = GetterUtil.getBoolean(
 			referenceElement.attributeValue("private-layout"));
 
 		Layout existingLayout = _layoutLocalService.fetchLayoutByUuidAndGroupId(
-			uuid, groupId, privateLayout);
+			uuid, targetGroupId, privateLayout);
 
 		if (existingLayout == null) {
 			return;
@@ -490,9 +490,8 @@ public class LayoutStagedModelDataHandler
 
 		layoutPlids.put(plid, existingLayout.getPlid());
 
-		if ((existingLayout.getGroupId() != portletDataContext.getGroupId()) ||
-			(existingLayout.isPrivateLayout() !=
-				portletDataContext.isPrivateLayout())) {
+		if ((groupId != portletDataContext.getSourceGroupId()) ||
+			(privateLayout != portletDataContext.isPrivateLayout())) {
 
 			return;
 		}
