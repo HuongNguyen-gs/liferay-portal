@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.portlet.ActionResponse;
 import javax.portlet.MimeResponse;
 import javax.portlet.MutableRenderParameters;
 import javax.portlet.PortletException;
@@ -428,6 +429,13 @@ public class PortletURLUtil {
 
 		RenderParameters renderParameters =
 			liferayPortletRequest.getRenderParameters();
+
+		if (liferayPortletResponse instanceof ActionResponse) {
+			ActionResponse actionResponse =
+				(ActionResponse)liferayPortletResponse;
+
+			renderParameters = actionResponse.getRenderParameters();
+		}
 
 		Set<String> renderParameterNames = renderParameters.getNames();
 
