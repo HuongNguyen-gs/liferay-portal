@@ -15,13 +15,21 @@
 import ClayColorPicker from '@clayui/color-picker';
 import React, {useState} from 'react';
 
+const HEX_COLOR_REGEX = /^#?[0-9A-F]{3}(?:[0-9A-F]{3})?$/i;
+
 const ColorPicker = ({color, label, name}) => {
 	const [colorValue, setColorValue] = useState(color);
 	const [customColors, setCustomColors] = useState([]);
 
+	const isHex = HEX_COLOR_REGEX.test(colorValue);
+
 	return (
 		<div className="form-group">
-			<input name={name} type="hidden" value={colorValue} />
+			<input
+				name={name}
+				type="hidden"
+				value={colorValue ? `${isHex ? '#' : ''}${colorValue}` : ''}
+			/>
 
 			<ClayColorPicker
 				colors={customColors}
