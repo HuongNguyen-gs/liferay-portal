@@ -351,7 +351,7 @@ NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
 					namespace: '<%= namespace %>',
 					pages: '<%= pages %>',
 					randomNamespace: '<%= randomNamespace %>',
-					url: '<%= HtmlUtil.escapeJS(url) %>',
+					url: '<%= HtmlUtil.escapeJS(HttpUtil.removeParameter(url, curParam)) %>',
 					urlAnchor: '<%= urlAnchor %>'
 				}
 			),
