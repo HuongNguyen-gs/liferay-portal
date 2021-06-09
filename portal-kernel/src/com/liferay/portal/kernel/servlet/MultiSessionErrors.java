@@ -14,6 +14,7 @@
 
 package com.liferay.portal.kernel.servlet;
 
+import com.liferay.portal.kernel.exception.NoSuchLayoutException;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 import javax.portlet.PortletRequest;
@@ -63,6 +64,26 @@ public class MultiSessionErrors {
 		return false;
 	}
 
+	public static boolean isHideDefaultErrorMessage(
+		PortletRequest portletRequest, String portletId) {
+
+		if (MultiSessionMessages.contains(
+				portletRequest,
+				portletId +
+					SessionMessages.KEY_SUFFIX_HIDE_DEFAULT_ERROR_MESSAGE)) {
+
+			return true;
+		}
+
+		for (Class<?> clazz : _HIDE_DEFAULT_ERROR_MESSAGE_CLASSES) {
+			if (contains(portletRequest, clazz.getName())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	private static boolean _isEmpty(HttpServletRequest httpServletRequest) {
 		if (SessionErrors.isEmpty(httpServletRequest)) {
 			return true;
@@ -70,5 +91,9 @@ public class MultiSessionErrors {
 
 		return false;
 	}
+
+	private static final Class<?>[] _HIDE_DEFAULT_ERROR_MESSAGE_CLASSES = {
+		NoSuchLayoutException.class
+	};
 
 }
