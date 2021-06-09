@@ -15,6 +15,8 @@
 package com.liferay.portal.kernel.servlet;
 
 import com.liferay.portal.kernel.exception.NoSuchLayoutException;
+import com.liferay.portal.kernel.exception.UserPasswordException;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 import javax.portlet.PortletRequest;
@@ -92,8 +94,11 @@ public class MultiSessionErrors {
 		return false;
 	}
 
-	private static final Class<?>[] _HIDE_DEFAULT_ERROR_MESSAGE_CLASSES = {
-		NoSuchLayoutException.class
-	};
+	private static final Class<?>[] _HIDE_DEFAULT_ERROR_MESSAGE_CLASSES =
+		ArrayUtil.append(
+			new Class<?>[] {
+				NoSuchLayoutException.class, UserPasswordException.class
+			},
+			UserPasswordException.class.getDeclaredClasses());
 
 }
