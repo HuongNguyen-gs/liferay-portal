@@ -410,6 +410,26 @@ public class BasePersistenceImpl<T extends BaseModel<T>>
 			return map;
 		}
 
+		if ((databaseInMaxParameters > 0) &&
+			(uncachedPrimaryKeys.size() > databaseInMaxParameters)) {
+
+			Iterator<Serializable> iterator = uncachedPrimaryKeys.iterator();
+
+			while (iterator.hasNext()) {
+				Set<Serializable> page = new HashSet<>();
+
+				for (int i = 0;
+					 (i < databaseInMaxParameters) && iterator.hasNext(); i++) {
+
+					page.add(iterator.next());
+				}
+
+				map.putAll(fetchByPrimaryKeys(page));
+			}
+
+			return map;
+		}
+
 		StringBundler sb = new StringBundler(
 			(2 * uncachedPrimaryKeys.size()) + 4);
 
