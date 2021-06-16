@@ -79,6 +79,12 @@
 			<finder-column name="groupId" />
 		</finder>
 	</entity>
+	<entity cache-enabled="false" local-service="true" name="CacheMissEntry" remote-service="false">
+
+		<!-- PK fields -->
+
+		<column name="cacheMissEntryId" primary="true" type="long" />
+	</entity>
 	<entity cache-enabled="true" local-service="true" name="DataLimitEntry" remote-service="false">
 
 		<!-- PK fields -->
