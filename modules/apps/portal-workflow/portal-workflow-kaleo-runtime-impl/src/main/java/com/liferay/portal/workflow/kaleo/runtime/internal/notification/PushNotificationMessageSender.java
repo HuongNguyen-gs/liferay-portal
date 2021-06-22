@@ -20,9 +20,6 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageBus;
 import com.liferay.portal.kernel.model.UserNotificationDeliveryConstants;
-import com.liferay.portal.kernel.notifications.UserNotificationManagerUtil;
-import com.liferay.portal.kernel.util.PortletKeys;
-import com.liferay.portal.workflow.constants.MyWorkflowTasksConstants;
 import com.liferay.portal.workflow.kaleo.definition.NotificationReceptionType;
 import com.liferay.portal.workflow.kaleo.runtime.ExecutionContext;
 import com.liferay.portal.workflow.kaleo.runtime.internal.util.NotificationMessageHelper;
@@ -122,8 +119,6 @@ public class PushNotificationMessageSender
 			ExecutionContext executionContext)
 		throws Exception {
 
-		List<NotificationRecipient> notificationRecipients = new ArrayList<>();
-
 		Collection<Set<NotificationRecipient>>
 			notificationRecipientsCollection =
 				notificationRecipientsMap.values();
@@ -131,17 +126,9 @@ public class PushNotificationMessageSender
 		Iterator<Set<NotificationRecipient>> iterator =
 			notificationRecipientsCollection.iterator();
 
-		for (NotificationRecipient notificationRecipient : iterator.next()) {
-			if (UserNotificationManagerUtil.isDeliver(
-					notificationRecipient.getUserId(),
-					PortletKeys.MY_WORKFLOW_TASK, 0,
-					MyWorkflowTasksConstants.
-						NOTIFICATION_TYPE_MY_WORKFLOW_TASKS,
-					UserNotificationDeliveryConstants.TYPE_PUSH)) {
-
-				notificationRecipients.add(notificationRecipient);
-			}
-		}
+		List<NotificationRecipient> notificationRecipients = new ArrayList<>(
+			getDeliverableNotificationRecipients(
+				iterator.next(), UserNotificationDeliveryConstants.TYPE_PUSH));
 
 		Message message = createMessage(
 			notificationRecipients, notificationMessage, executionContext);
