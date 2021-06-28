@@ -151,7 +151,7 @@ public class AssetSearcher extends BaseSearcher {
 	protected void addSearchAllKeywords(BooleanFilter queryBooleanFilter)
 		throws Exception {
 
-		String[] allKeywords = _assetEntryQuery.getAllKeywords();
+		String[] allKeywords = StringUtil.escapeSpecialChars(_assetEntryQuery.getAllKeywords());
 
 		if (allKeywords.length == 0) {
 			return;
@@ -261,7 +261,7 @@ public class AssetSearcher extends BaseSearcher {
 	protected void addSearchAnyKeywords(BooleanFilter queryBooleanFilter)
 		throws Exception {
 
-		String[] anyKeywords = _assetEntryQuery.getAnyKeywords();
+		String[] anyKeywords = StringUtil.escapeSpecialChars(_assetEntryQuery.getAnyKeywords());
 
 		if (anyKeywords.length == 0) {
 			return;
@@ -422,7 +422,7 @@ public class AssetSearcher extends BaseSearcher {
 	protected void addSearchNotAllKeywords(BooleanFilter queryBooleanFilter)
 		throws Exception {
 
-		String[] notAllKeywords = _assetEntryQuery.getNotAllKeywords();
+		String[] notAllKeywords = StringUtil.escapeSpecialChars(_assetEntryQuery.getNotAllKeywords());
 
 		if (notAllKeywords.length == 0) {
 			return;
@@ -521,7 +521,7 @@ public class AssetSearcher extends BaseSearcher {
 	protected void addSearchNotAnyKeywords(BooleanFilter queryBooleanFilter)
 		throws Exception {
 
-		String[] notAnyKeywords = _assetEntryQuery.getNotAnyKeywords();
+		String[] notAnyKeywords = StringUtil.escapeSpecialChars(_assetEntryQuery.getNotAnyKeywords());
 
 		if (notAnyKeywords.length == 0) {
 			return;

@@ -585,6 +585,25 @@ public class StringUtil {
 	}
 
 	/**
+	 * Returns the string array with escaped special chars.
+	 * *
+	 * @param  sa the string array contains special characters that need to be escaped
+	 */
+	public static String[] escapeSpecialChars(String[] sa){
+		final String[] chars = {"\\","^","$","{","}","[","]","(",")",".","*","?","|","<",">","+","-","&","/","%"};
+
+		for (int j = 0 ; j < sa.length ; j++){
+			for (int i = 0 ; i < chars.length ; i++){
+				if(sa[j].contains(chars[i])){
+					sa[j] = sa[j].replace(chars[i],"\\"+chars[i]);
+				}
+			}
+		}
+
+		return sa;
+	}
+
+	/**
 	 * Returns the substring of English characters from the string.
 	 *
 	 * @param  s the string from which to extract characters
