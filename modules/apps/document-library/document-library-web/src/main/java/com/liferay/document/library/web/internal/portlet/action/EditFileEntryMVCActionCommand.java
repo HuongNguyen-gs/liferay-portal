@@ -110,6 +110,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.portal.util.RepositoryUtil;
+import com.liferay.taglib.ui.InputPermissionsParamsTag;
 import com.liferay.trash.service.TrashEntryService;
 import com.liferay.upload.UploadResponseHandler;
 
@@ -124,6 +125,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -620,6 +622,14 @@ public class EditFileEntryMVCActionCommand extends BaseMVCActionCommand {
 
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(
 			DLFileEntry.class.getName(), httpServletRequest);
+
+		if (Objects.equals(
+			RoleConstants.GUEST,
+			InputPermissionsParamsTag.getDefaultViewRole(
+				DLFileEntry.class.getName(), themeDisplay))) {
+
+			return serviceContext;
+		}
 
 		ModelPermissions modelPermissions =
 			serviceContext.getModelPermissions();

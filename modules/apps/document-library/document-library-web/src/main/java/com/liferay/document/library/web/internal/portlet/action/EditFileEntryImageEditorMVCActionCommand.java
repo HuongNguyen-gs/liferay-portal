@@ -75,6 +75,7 @@ import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.taglib.ui.InputPermissionsParamsTag;
 import com.liferay.upload.UploadResponseHandler;
 
 import java.io.IOException;
@@ -82,6 +83,7 @@ import java.io.InputStream;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -183,6 +185,14 @@ public class EditFileEntryImageEditorMVCActionCommand
 
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(
 			DLFileEntry.class.getName(), httpServletRequest);
+
+		if (Objects.equals(
+			RoleConstants.GUEST,
+			InputPermissionsParamsTag.getDefaultViewRole(
+				DLFileEntry.class.getName(), themeDisplay))) {
+
+			return serviceContext;
+		}
 
 		ModelPermissions modelPermissions =
 			serviceContext.getModelPermissions();
